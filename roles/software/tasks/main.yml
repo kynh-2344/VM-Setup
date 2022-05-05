@@ -6,7 +6,6 @@
     - php-install.yml
     - system-install.yml
     - elasticsearch-install.yml
-    - install-nodejs.yml
   tags:
     - debug
 
