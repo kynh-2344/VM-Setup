@@ -10,9 +10,6 @@ server {
 
 	error_page 404 /404;
 
-	auth_basic "{{ item.servername }}.{{ item.domainname }}";
-	auth_basic_user_file /etc/nginx/authen/.htpasswd-{{ item.servername }};
-
 	# IP Custommer
 	# allow 0.0.0.0/32;
 	# IP Da Nang
@@ -37,7 +34,15 @@ server {
 	allow 172.17.0.0/22;
 	allow 10.10.1.0/24;
 
+	{% if item.public == true %}
+	auth_basic "{{ item.servername }}.{{ item.domainname }}";
+	auth_basic_user_file /etc/nginx/authen/.htpasswd-{{ item.servername }};
+	{% elif item.public == false %}
+	# auth_basic "{{ item.servername }}.{{ item.domainname }}";
+	# auth_basic_user_file /etc/nginx/authen/.htpasswd-{{ item.servername }};
 	deny all;
+	{% endif %}
+
 
 	access_log /var/log/nginx/{{ item.servername }}.{{ item.domainname }}.access.log;
 	error_log /var/log/nginx/{{ item.servername }}.{{ item.domainname }}.error.log;
